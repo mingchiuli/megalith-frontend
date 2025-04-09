@@ -318,13 +318,13 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
   return true
 }
 
-const CustomEditorItem = defineAsyncComponent({
-  loader: () => import('@/components/sys/EditorItem.vue'),
-  loadingComponent: EditorLoadingItem,
-  delay: 200,
-  errorComponent: EditorLoadingItem,
-  timeout: 5000
-})
+// const CustomEditorItem = defineAsyncComponent({
+//   loader: () => import('@/components/sys/EditorItem.vue'),
+//   loadingComponent: EditorLoadingItem,
+//   delay: 200,
+//   errorComponent: EditorLoadingItem,
+//   timeout: 5000
+// })
 
 const handleTitleSelect = () => {
   if (form.status !== Status.SENSITIVE_FILTER) {
@@ -471,7 +471,7 @@ const loadEditContent = async (form: EditForm, blogId: string | undefined) => {
       </el-form-item>
 
       <el-form-item class="content" prop="content">
-        <CustomEditorItem
+        <EditorItem
           v-if="initialized"
           v-model:content="form.content"
           @sensitive="dealSensitive"
