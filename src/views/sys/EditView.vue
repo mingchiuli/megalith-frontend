@@ -162,7 +162,6 @@ const initializeEditor = async () => {
 }
 
 onMounted(async () => {
-  updateEditorConfig()
   await initializeEditor()
   await nextTick()
 
