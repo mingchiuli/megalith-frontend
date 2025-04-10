@@ -32,9 +32,8 @@ const usercolors = [
   { color: '#1be7ff', light: '#1be7ff33' },
 ]
 
-const url = 'ws://127.0.0.1:8089/rooms'
+const url = `${import.meta.env.VITE_BASE_WS_URL}/rooms`
 const room = '11'
-const token = '12345'
 
 const ydoc = new Y.Doc()
 
