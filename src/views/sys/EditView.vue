@@ -1,13 +1,5 @@
 <script lang="ts" setup>
-import {
-  computed,
-  onMounted,
-  onUnmounted,
-  reactive,
-  ref,
-  useTemplateRef,
-  watch
-} from 'vue'
+import { computed, onMounted, onUnmounted, reactive, ref, useTemplateRef, watch } from 'vue'
 import {
   type TagProps,
   type UploadFile,
@@ -53,6 +45,7 @@ import { IndexeddbPersistence } from 'y-indexeddb'
 import '@vavt/v3-extension/lib/asset/ExportPDF.css'
 import { Emoji, ExportPDF } from '@vavt/v3-extension'
 import '@vavt/v3-extension/lib/asset/Emoji.css'
+import { nextTick } from 'vue'
 
 const initialized = ref(false)
 const route = useRoute()
@@ -168,28 +161,17 @@ const initializeEditor = async () => {
   }
 }
 
-// 监听ytext变化，同步到form.content
-const observeYTextChanges = () => {
-  ytext.observe(() => {
-    const content = ytext.toString()
-    if (content !== form.content) {
-      form.content = content
-    }
-  })
-}
-
 onMounted(async () => {
   updateEditorConfig()
   await initializeEditor()
-  observeYTextChanges()
-  
+  await nextTick()
+
   // 设置编辑器敏感内容选择功能
-  setTimeout(() => {
-    const editor = document.getElementById('md-editor')
-    if (editor) {
-      editor.onmouseup = handleEditorMouseUp
-    }
-  }, 500)
+
+  const editor = document.getElementById('md-editor')
+  if (editor) {
+    editor.onmouseup = handleEditorMouseUp
+  }
 })
 
 onUnmounted(async () => {
@@ -211,16 +193,6 @@ const form = reactive<EditForm>({
   status: undefined,
   link: undefined,
   sensitiveContentList: []
-})
-
-// 监听form.content变化，同步到ytext
-watch(() => form.content, (newContent) => {
-  if (newContent && ytext.toString() !== newContent) {
-    ydoc.transact(() => {
-      ytext.delete(0, ytext.length)
-      ytext.insert(0, newContent)
-    })
-  }
 })
 
 // 敏感内容相关
@@ -662,7 +634,7 @@ const loadEditContent = async (form: EditForm, blogId: string | undefined) => {
 
       <!-- 内容编辑器 - 直接使用MdEditor而不是自定义组件 -->
       <el-form-item class="content" prop="content">
-        <md-editor
+        <MdEditor
           v-if="initialized"
           v-model="form.content"
           :preview="false"
@@ -687,7 +659,7 @@ const loadEditContent = async (form: EditForm, blogId: string | undefined) => {
               status="success"
             />
           </template>
-        </md-editor>
+        </MdEditor>
       </el-form-item>
 
       <div class="submit-button">
