@@ -45,7 +45,7 @@ const wsProvider = new WebsocketProvider(
   ydoc,
   {
     params: {
-      token: token, // 作为查询参数添加 token
+      token: localStorage.getItem('token')!, // 作为查询参数添加 token
     },
   },
 )
