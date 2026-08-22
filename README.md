@@ -1,6 +1,6 @@
 # megalith-frontend
 
-> 本项目已迁移至主仓库：[megalith-micro](https://github.com/mingchiuli/megalith-micro)。
+> This project has been migrated to the main repository: [megalith-micro](https://github.com/mingchiuli/megalith-micro).
 
 Vue 3 + Vite SSR frontend for Megalith. Public and administration routes render on the Bun server, prefetch their initial API data, and then hydrate into the existing interactive application in the browser. The collaborative editor, Yjs provider, AI workflow, comments, and other DOM-only integrations start after hydration.
 
